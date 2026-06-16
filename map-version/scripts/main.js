@@ -354,6 +354,67 @@ function App() {
     d3.select('.table-box').style('width', window.innerWidth < 576 ? '100%' : width)
     d3.select('.table-title').html(title)
     const table = d3.select('#table')
+    const baseData = data.slice()
+    let displayedData = baseData.slice()
+    let sortState = { field: null, direction: "asc" }
+    const nonSortableFields = new Set(['CITY', 'STATE', 'STATE_NAME'])
+
+    const getComparableValue = (row, field) => {
+      const value = row[field]
+      if (value === null || value === undefined || value === "") return null
+      if (typeof value === "number") return value
+      const parsed = Number(value)
+      if (!Number.isNaN(parsed) && String(value).trim() !== "") return parsed
+      return String(value).toLowerCase()
+    }
+
+    const sortByHeader = (header) => {
+      if (nonSortableFields.has(header.fieldValue)) return
+
+      const isSameField = sortState.field === header.fieldValue
+      sortState = {
+        field: header.fieldValue,
+        direction: isSameField && sortState.direction === "asc" ? "desc" : "asc",
+      }
+
+      displayedData = baseData.slice().sort((a, b) => {
+        const aVal = getComparableValue(a, header.fieldValue)
+        const bVal = getComparableValue(b, header.fieldValue)
+
+        if (aVal === bVal) return 0
+        if (aVal === null) return 1
+        if (bVal === null) return -1
+
+        let cmp = 0
+        if (typeof aVal === "string" || typeof bVal === "string") {
+          cmp = String(aVal).localeCompare(String(bVal))
+        } else {
+          cmp = aVal - bVal
+        }
+
+        return sortState.direction === "asc" ? cmp : -cmp
+      })
+
+      renderRows(displayedData)
+    }
+
+    const renderRows = (rows) => {
+      const tableRows = table
+        .selectAll('.table-body-row')
+        .data(rows)
+        .join('tr')
+        .attr('class', 'table-body-row')
+
+      tableRows
+        .selectAll('td')
+        .data((d) => {
+          return headers.map((header) => d[header.fieldValue])
+        })
+        .join('td')
+        .text((d, index) => {
+          return index === 1 || index === 2 ? d : ordinal_suffix_of(d)
+        })
+    }
 
     const tableHeader = table
       .selectAll('.table-header-row')
@@ -365,26 +426,14 @@ function App() {
       .data(headers)
       .join('th')
       .style('width', (d) => d.width)
+      .style('cursor', (d) => nonSortableFields.has(d.fieldValue) ? 'default' : 'pointer')
       .html((d) => `<div class='header-box ${d.label.toLowerCase()}'> 
 			  <img src= ${d.icon} class='table-icon' />
 				<div class='header-label'> ${d.label} </div>
 			</div>`)
+      .on('click', (_, header) => sortByHeader(header))
 
-    const tableRows = table
-      .selectAll('.table-body-row')
-      .data(data)
-      .join('tr')
-      .attr('class', 'table-body-row')
-
-    tableRows
-      .selectAll('td')
-      .data((d) => {
-        return headers.map((header) => d[header.fieldValue])
-      })
-      .join('td')
-      .text((d, index) => {
-        return index === 1 || index === 2 ? d : ordinal_suffix_of(d)
-      })
+    renderRows(displayedData)
   }
 
   d3.select('#zoom_in').on('click', () => {
