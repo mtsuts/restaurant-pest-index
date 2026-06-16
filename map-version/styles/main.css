@@ -438,7 +438,9 @@ header .titles {
   margin: 0 auto;
   text-transform: uppercase;
   height: 550px;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .table-row {
@@ -502,6 +504,15 @@ header .titles {
   text-transform: uppercase
 }
 
+#table-header,
+#table-body {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0;
+}
+
 .table-header-row th {
   border-top: none !important;
   background-color: var(--red);
@@ -526,14 +537,44 @@ tr td:first-child {
 }
 
 .table-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
   padding: 5px;
   font-family: "Open Sans", sans-serif;
-  overflow-x: auto;
-  max-width: 500px
+}
+
+.table-header-scroll {
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.table-body-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* End of table */
 
+@media (max-width: 575px) {
+  .table-box {
+    height: min(550px, calc(100dvh - 220px));
+    max-height: calc(100dvh - 220px);
+  }
+
+  .table-content {
+    max-width: 100%;
+  }
+
+  #table-header,
+  #table-body {
+    min-width: 600px;
+  }
+}
 
 .map-content {
   padding: 10px 10px 20px 10px;
@@ -747,7 +788,7 @@ tr td:first-child {
   .table-content {
     padding: 5px;
     font-family: "Open Sans", sans-serif;
-    max-width: 100%
+    max-width: 100%;
   }
 
   .table-box {
@@ -756,7 +797,9 @@ tr td:first-child {
     margin: 0 auto;
     text-transform: uppercase;
     height: 550px;
-    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
 
   .table-div {

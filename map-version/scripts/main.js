@@ -353,7 +353,24 @@ function App() {
   function drawTable(headers, data, title, width) {
     d3.select('.table-box').style('width', window.innerWidth < 576 ? '100%' : width)
     d3.select('.table-title').html(title)
-    const table = d3.select('#table')
+    const headerTable = d3.select('#table-header')
+    const bodyTable = d3.select('#table-body')
+
+    function syncColgroup(tableSel) {
+      const colgroup = tableSel.select('colgroup').empty()
+        ? tableSel.append('colgroup')
+        : tableSel.select('colgroup')
+      colgroup.selectAll('col')
+        .data(headers)
+        .join('col')
+        .style('width', (d) => d.width)
+    }
+
+    syncColgroup(headerTable)
+    syncColgroup(bodyTable)
+
+    const thead = headerTable.select('thead').empty() ? headerTable.append('thead') : headerTable.select('thead')
+    const tbody = bodyTable.select('tbody').empty() ? bodyTable.append('tbody') : bodyTable.select('tbody')
     const baseData = data.slice()
     let displayedData = baseData.slice()
     let sortState = { field: null, direction: "asc" }
@@ -399,7 +416,7 @@ function App() {
     }
 
     const renderRows = (rows) => {
-      const tableRows = table
+      const tableRows = tbody
         .selectAll('.table-body-row')
         .data(rows)
         .join('tr')
@@ -416,7 +433,7 @@ function App() {
         })
     }
 
-    const tableHeader = table
+    const tableHeader = thead
       .selectAll('.table-header-row')
       .data(['tr'])
       .join('tr')
@@ -434,6 +451,17 @@ function App() {
       .on('click', (_, header) => sortByHeader(header))
 
     renderRows(displayedData)
+    syncTableHorizontalScroll()
+  }
+
+  function syncTableHorizontalScroll() {
+    const bodyScroll = document.querySelector('.table-body-scroll')
+    const headerScroll = document.querySelector('.table-header-scroll')
+    if (!bodyScroll || !headerScroll) return
+
+    bodyScroll.onscroll = () => {
+      headerScroll.scrollLeft = bodyScroll.scrollLeft
+    }
   }
 
   d3.select('#zoom_in').on('click', () => {

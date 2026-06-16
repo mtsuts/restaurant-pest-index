@@ -70,12 +70,29 @@ function App() {
   }
 
   function drawTable(headers, data) {
-    const table = d3.select('#table')
+    const headerTable = d3.select('#table-header')
+    const bodyTable = d3.select('#table-body')
+
+    function syncColgroup(tableSel) {
+      const colgroup = tableSel.select('colgroup').empty()
+        ? tableSel.append('colgroup')
+        : tableSel.select('colgroup')
+      colgroup.selectAll('col')
+        .data(headers)
+        .join('col')
+        .style('width', (d) => d.width)
+    }
+
+    syncColgroup(headerTable)
+    syncColgroup(bodyTable)
+
+    const thead = headerTable.select('thead').empty() ? headerTable.append('thead') : headerTable.select('thead')
+    const tbody = bodyTable.select('tbody').empty() ? bodyTable.append('tbody') : bodyTable.select('tbody')
     let currentData = data.slice()
     const sortDirections = {}
     const nonSortableFields = new Set(['CITY', 'STATE', 'STATE_NAME'])
 
-    const tableHeader = table
+    const tableHeader = thead
       .selectAll('.table-header-row')
       .data(['tr'])
       .join('tr')
@@ -93,7 +110,7 @@ function App() {
     const colors = ['#E02127', '#CE2531', '#BB2A3C', '#A92E46', '#963250', '#84375B', '#713B65', '#5F3F6F', '#4D447A', '#3A4884', '#284C8E', '#155199', '#0355A3']
 
     function renderBody() {
-      const tableRows = table
+      const tableRows = tbody
         .selectAll('.table-body-row')
         .data(currentData)
         .join('tr')
@@ -108,7 +125,7 @@ function App() {
           return nonSortableFields.has(field) ? d : ordinal_suffix_of(d)
         })
 
-      table.selectAll('.table-body-row td:nth-child(1)')
+      tbody.selectAll('.table-body-row td:nth-child(1)')
         .style('border-left', function () {
           const rowData = d3.select(this.parentNode).datum()
           const rank = rowData['OVERALL RANKING']
@@ -118,6 +135,7 @@ function App() {
     }
 
     renderBody()
+    syncTableHorizontalScroll()
 
     headerCells.on('click', (_, header) => {
       const field = header.fieldValue
@@ -146,6 +164,16 @@ function App() {
       sortDirections[field] = !isAsc
       renderBody()
     })
+  }
+
+  function syncTableHorizontalScroll() {
+    const bodyScroll = document.querySelector('.table-body-scroll')
+    const headerScroll = document.querySelector('.table-header-scroll')
+    if (!bodyScroll || !headerScroll) return
+
+    bodyScroll.onscroll = () => {
+      headerScroll.scrollLeft = bodyScroll.scrollLeft
+    }
   }
 }
 
