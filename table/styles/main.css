@@ -1,0 +1,525 @@
+:root {
+  --dark-blue: #051C34;
+  --blue: #0255A3;
+  --red: #E02126;
+  --light-grey: #F2F2F2;
+  --padding-desktop: 40px;
+  --padding-mobile: 40px 20px;
+
+  --current-main-color: #0355A3;
+  --current-main-color-state: #0355A3;
+  --current-secondary-color-state: #E6EEF6;
+  --swiper-navigation-size: 14px;
+  --swiper-navigation-color: #ffffff;
+  --swiper-pagination-color: #ffffff;
+  --swiper-pagination-bullet-inactive-color: #E7E7E7;
+  --swiper-pagination-bullet-inactive-opacity: 1;
+}
+
+.text-bold {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--blue)
+}
+
+
+@font-face {
+  font-family: 'Open Sans Condensed';
+  src: url(./fonts/OpenSans_Condensed-Regular.ttf);
+}
+
+@font-face {
+  font-family: 'Open Sans Condensed bold';
+  src: url(./fonts/OpenSans_Condensed-Medium.ttf);
+}
+
+
+
+html,
+body {
+  font-family: "Open Sans Condensed", sans-serif;
+}
+
+
+/* Tooltip */
+.tippy-box {
+  background: transparent !important;
+  padding: 0;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.tippy-content {
+  padding: 0px !important;
+  box-shadow: none !important;
+  background: transparent;
+}
+
+.tippy-box .name-and-rank {
+  background-color: white;
+  border: 2px solid black;
+  padding: 10px 12px;
+  min-width: 150px;
+  font-family: Open Sans Condensed;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+  text-align: left;
+  color: #051C34
+}
+
+
+.tippy-box .states-tooltip {
+  background-color: white;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
+
+.tippy-box .name-and-rank .name {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+  color: #060633;
+}
+
+.tippy-box .name-and-rank .rank {
+  font-weight: 400;
+  font-size: 13.33px;
+  line-height: 18px;
+  color: var(--dark-blue)
+}
+
+.map-tooltip {
+  display: flex;
+}
+
+.map-tooltip .btn {
+  height: 60px;
+  max-height: auto;
+}
+
+.map-tooltip .btn-wrap:first-of-type .btn {
+  border-radius: 4px 0px 0px 4px;
+}
+
+.map-tooltip .btn-wrap:last-of-type .btn {
+  border-radius: 0px 4px 4px 0px;
+}
+
+.tooltip-arrow-btn svg {
+  pointer-events: none;
+}
+
+.top-10-table-tooltip {
+  padding: 10px;
+  border-radius: 40px;
+  background-color: #fff;
+}
+
+.top-10-table-tooltip .stat-row {
+  min-width: 280px;
+  margin-bottom: 0px;
+}
+
+/* Tooltip */
+
+/* Layout */
+
+.container {
+  padding: 0px;
+  max-width: 818px;
+}
+
+.left-column {
+  padding: 24px 20px 0px 20px;
+}
+
+.overall-content footer {
+  background-color: var(--dark-blue);
+  text-align: center;
+  padding: 12px;
+}
+
+.state-content {
+  position: relative;
+}
+
+.state-content-row {
+  background: linear-gradient(180deg, #E3F0FD 0%, rgba(227, 240, 253, 0) 100%);
+}
+
+.state-content footer {
+  background-color: var(--dark-blue);
+  padding: 150px 40px 20px 40px;
+  position: absolute;
+  bottom: -1px;
+  left: 0px;
+  z-index: 0;
+  width: 100%;
+  text-align: center;
+}
+
+header {
+  background-color: var(--dark-blue);
+}
+
+header .titles {
+  padding: var(--padding-mobile);
+  color: #fff;
+  text-align: center;
+}
+
+.main-title {
+  font-family: DIN Condensed;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 48px;
+  display: none;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.main-title-mobile {
+  font-family: DIN Condensed;
+  font-size: 52px;
+  font-weight: 700;
+  display: block;
+  line-height: 48px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.sub-title {
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 13.33px;
+  line-height: 18px;
+}
+
+.nav-link {
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  border-radius: 0px !important;
+  font-weight: 600;
+  border-bottom: 4px solid #aaafc7;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 22px;
+  padding: 12px 1rem;
+  color: #fff;
+}
+
+.nav-link:focus {
+  outline: none;
+}
+
+.nav-link:hover {
+  color: #fff;
+}
+
+.nav-link.active {
+  border-bottom: 4px solid #e34053;
+  background-color: transparent !important;
+}
+
+
+/* End of category slider */
+
+/* overall map */
+
+.state.highlighted {
+  fill: #051C34;
+}
+
+.overall-map {
+  padding: 20px;
+  position: relative;
+}
+
+.legend .legend-rect {
+  width: 100%;
+  border-radius: 4px;
+  height: 16px;
+  margin-bottom: 8px;
+}
+
+.legend .legend-labels {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  font-size: 13.33px;
+  line-height: 15px;
+  color: #192435;
+}
+
+.overall-map .legend {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* rank div */
+.score-div {
+  display: flex;
+  margin: 0 auto;
+  max-width: 350px;
+  justify-content: space-between;
+}
+
+.score-text {
+  text-transform: uppercase;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 26px;
+  text-align: left;
+
+}
+
+.rank-line {
+  margin: 0 auto;
+  margin-bottom: 20px;
+  display: flex;
+  max-width: 350px;
+}
+
+.rank-value {
+  color: #E02126
+}
+
+.search-value {
+  font-family: "Open Sans Condensed";
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 26px;
+  text-align: left;
+  margin-left: 5px;
+}
+
+.search-text {
+  font-family: "Open Sans Condensed";
+  font-size: 12px;
+  font-weight: 600;
+  text-align: left;
+  margin-top: 7px;
+}
+
+.rank-box {
+  width: 25%;
+}
+
+.first-rect {
+  background-color: #0255A3;
+  padding: 10px;
+}
+
+.second-rect {
+  background-color: #0255A3;
+  opacity: 50%;
+}
+
+.third-rect {
+  background-color: #E02126;
+  opacity: 50%;
+}
+
+.fourth-rect {
+  background-color: #E02126;
+}
+
+
+/* End of overall map */
+
+
+/* States map */
+
+.states-map {
+  display: none;
+}
+
+/* End of states map */
+
+
+.rank {
+  color: var(--red)
+}
+
+/* End of top 10 table */
+
+
+.map-content {
+  padding: 10px 10px 0px 10px;
+  background-color: #ffffff
+}
+
+/* Start of table */
+
+.table-div {
+  font-family: 'Open Sans Condensed' !important
+}
+
+.table-box {
+  background-color: #ffffff;
+  width: 100%;
+  margin: 0 auto;
+  text-transform: uppercase;
+}
+
+.table {
+  width: 600px !important
+}
+
+.table-row {
+  display: flex;
+  align-items: center;
+  height: 35px;
+  font-family: "Open Sans Condensed", sans-serif;
+  border-bottom: 0.5px solid #C4C4C4;
+  width: 100%;
+  padding: 0px 6px;
+  cursor: pointer;
+}
+
+.table-body-row {
+  font-family: "Open Sans Condensed";
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+  color: #051C34
+}
+
+.table-body-row td:nth-child(1) {
+  font-family: "Open Sans Condensed" sans-serif;
+
+}
+
+.table-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.table-cell {
+  font-family: "Open Sans Condensed", sans-serif;
+  text-transform: uppercase
+}
+
+.header-box {
+  font-family: 'Open Sans Condensed bold', sans-serif;
+  font-size: 16px;
+  font-weight: 700  !important;
+  line-height: 16px;
+  text-align: left;
+  cursor: pointer
+}
+
+.header-label {
+  margin-top: 7px;
+  font-weight: 700;
+  text-align: left;
+  color: #fff
+}
+
+.table-label {
+  margin-top: 2px;
+  font-family: "Open Sans Condensed", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 40px;
+  text-align: left;
+  color: #fff;
+  text-transform: uppercase
+}
+
+.table-header-row th {
+  border-top: none !important;
+  background-color: #E02126;
+}
+
+tr td:first-child {
+  color: #E02126;
+}
+
+.table th {
+  padding: 0.50rem !important
+}
+
+.table-row:not([data-value="overall"]):hover .rank {
+  font-weight: 800;
+}
+
+.table-row:not([data-value="overall"]):hover .name {
+  font-weight: 800;
+}
+
+.table-content {
+  font-family: "Open Sans Condensed", sans-serif;
+  overflow-x: auto;
+}
+
+.table-body-row:nth-child(2n + 1) {
+  background-color: var(--light-grey)
+}
+/* End of Table */
+
+
+@media (min-width: 576px) {
+  .container {
+    padding: 0px;
+    max-width: 818px;
+
+    /* border: 1px solid #012C57; */
+  }
+
+  .table {
+    width: 100% !important
+  }
+
+  .main-title {
+    display: block;
+  }
+
+  .main-title-mobile {
+    display: none;
+  }
+
+  header .titles {
+    padding: 40px 20px 20px 40px;
+  }
+
+  .table th {
+    padding: 0.50rem !important
+  }
+
+  .table-content {
+    font-family: "Open Sans Condensed", sans-serif;
+    max-width: 100%
+  }
+
+  .table-box {
+    background-color: #ffffff;
+    width: 100%;
+    margin: 0 auto;
+    text-transform: uppercase;
+  }
+
+  .table-div {
+    /* padding: 10px 40px 40px 40px; */
+    background-color: #F2F2F2;
+  }
+
+
+  .rank-line {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    display: flex;
+    max-width: 550px;
+  }
+
+  .score-div {
+    display: flex;
+    margin: 0 auto;
+    max-width: 550px;
+    justify-content: space-between;
+  }
+}
