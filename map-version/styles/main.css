@@ -572,7 +572,23 @@ tr td:first-child {
 
   #table-header,
   #table-body {
-    min-width: 600px;
+    min-width: 760px;
+  }
+
+  #table-header th,
+  #table-body td {
+    padding: 0.65rem 0.75rem !important;
+    white-space: nowrap;
+  }
+
+  .header-box {
+    min-width: 90px;
+  }
+
+  .header-label {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 14px;
   }
 }
 
