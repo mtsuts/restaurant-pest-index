@@ -332,7 +332,6 @@ header .titles {
   display: flex;
   margin: 0 auto;
   /* max-width: 350px; */
-  bottom: 20px;
   justify-content: space-between;
 }
 
@@ -346,10 +345,9 @@ header .titles {
 
 .rank-line {
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   display: flex;
   max-width: 461px;
-  bottom: 20px;
 }
 
 .rank-value {
@@ -607,7 +605,8 @@ tr td:first-child {
 .dropdown {
   width: 340px;
   margin: 20px auto;
-  z-index: 999;
+  z-index: 1001;
+  position: relative;
 }
 
 
@@ -615,7 +614,8 @@ tr td:first-child {
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: 'Open Sans Condensed bold', 'San-serif'
+  font-size: 20px;
+  font-family: 'Open Sans Condensed', 'San-serif'
 }
 
 .choices__inner {
