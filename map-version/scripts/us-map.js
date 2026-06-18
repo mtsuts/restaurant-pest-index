@@ -113,6 +113,26 @@ function USMap(params) {
       "Wyoming": "WY"
     }
 
+  function isMobileView() {
+    return window.innerWidth < 576
+  }
+
+  function getMaxZoom() {
+    return isMobileView() ? 16 : 8
+  }
+
+  function getStateZoomFit() {
+    return isMobileView() ? 1.2 : 0.9
+  }
+
+  function getCircleBaseRadius() {
+    return isMobileView() ? 26 : 15
+  }
+
+  function getCircleRadius(scaleK) {
+    return getCircleBaseRadius() / (scaleK || 1)
+  }
+
   function main() {
     if (!attrs.container || !document.querySelector(attrs.container)) {
       return console.error("Please provide a container element!")
@@ -438,6 +458,8 @@ function USMap(params) {
       attrs.height = attrs.desktopHeight
     }
 
+    zoom.scaleExtent([1, getMaxZoom()])
+
     chartWidth = attrs.width - attrs.margin.right - attrs.margin.left
     chartHeight = attrs.height - attrs.margin.bottom - attrs.margin.top
   }
@@ -464,8 +486,8 @@ function USMap(params) {
     const scale = Math.max(
       1,
       Math.min(
-        8,
-        0.9 / Math.max(dx / chartWidth, dy / chartHeight)
+        getMaxZoom(),
+        getStateZoomFit() / Math.max(dx / chartWidth, dy / chartHeight)
       )
     )
 
@@ -511,7 +533,7 @@ function USMap(params) {
       .enter()
       .append("circle")
       .attr("class", "city-circle")
-      .attr("r", 10)
+      .attr("r", getCircleRadius(1))
       .attr("stroke", "#fff")
       .attr("stroke-width", 1)
 
@@ -647,7 +669,7 @@ function USMap(params) {
     var k = transform.k || 1
     mapContainer
       .selectAll(".city-circle")
-      .attr("r", 10 / k)
+      .attr("r", getCircleRadius(k))
       .attr("stroke-width", 1 / k)
   }
 

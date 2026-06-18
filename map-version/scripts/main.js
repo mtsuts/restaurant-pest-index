@@ -244,7 +244,7 @@ function App() {
       overallMap = USMap({
         container: "#overall_map",
         desktopHeight: 450,
-        mobileHeight: 200,
+        mobileHeight: 300,
         geojson: mapJson,
         data: newMapData,
         searchData: newSearchMapData,
