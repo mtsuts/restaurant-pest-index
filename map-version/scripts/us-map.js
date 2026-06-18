@@ -242,6 +242,10 @@ function USMap(params) {
         }
       })
       .on("click", function (e, d) {
+        if (e.target?.classList?.contains('city-circle')) {
+          return
+        }
+
         const clickedStateName = d.properties.name
 
         // If clicking the same state that's already selected, hide circles and reset
@@ -505,6 +509,26 @@ function USMap(params) {
     return scale
   }
 
+  function showCityTooltip(activeNode) {
+    mapContainer.selectAll('.city-circle').each(function () {
+      if (this._tippy && this !== activeNode) {
+        this._tippy.hide()
+      }
+    })
+
+    if (activeNode?._tippy) {
+      activeNode._tippy.show()
+    }
+  }
+
+  function handleCityCircleClick(e) {
+    e.stopPropagation()
+
+    if (isMobileView()) {
+      showCityTooltip(this)
+    }
+  }
+
   function drawCityCircles(data) {
     if (!mapContainer || !projection) return
 
@@ -537,7 +561,7 @@ function USMap(params) {
       .attr("stroke", "#fff")
       .attr("stroke-width", 1)
 
-    circlesEnter.merge(circles)
+    const mergedCircles = circlesEnter.merge(circles)
       .attr("fill", '#fff')
       .attr('stroke', '#000')
       .attr("cx", d => {
@@ -552,12 +576,16 @@ function USMap(params) {
         const coords = getProjectedCoords(d)
         return coords ? 1 : 0
       })
+      .style('cursor', 'pointer')
+      .style('pointer-events', 'all')
+      .on('click', handleCityCircleClick)
 
     // Add tooltips to circles
-    appendCityTooltips(circlesEnter.merge(circles))
+    appendCityTooltips(mergedCircles)
   }
 
   function appendCityTooltips(circles) {
+    const isMobile = isMobileView()
     const tooltipOptions = {
       allowHTML: true,
       arrow: false,
@@ -575,7 +603,7 @@ function USMap(params) {
         ],
       },
       theme: "light",
-      trigger: "mouseenter focus",
+      trigger: isMobile ? "manual" : "mouseenter focus",
       hideOnClick: false,
       interactive: false,
     }
