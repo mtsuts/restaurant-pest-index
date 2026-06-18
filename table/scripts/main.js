@@ -42,7 +42,7 @@ function App() {
     const allCitiesTableData = cities
       .map(mapCityToTableFormat)
       .sort((a, b) => a['OVERALL RANKING'] - b['OVERALL RANKING'])
-      .slice(0, 10)
+      // .slice(0, 10)
 
     drawTable(cityHeaders, allCitiesTableData)
   })
